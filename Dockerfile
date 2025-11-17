@@ -16,7 +16,7 @@ FROM gcr.io/distroless/static
 
 WORKDIR /app
 
-COPY --from=build /app/main .
+COPY --from=build /app/main /app/main
 
 #Copy the static file from the binary image
 COPY --from=build /app/static /static
