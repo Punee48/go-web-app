@@ -24,4 +24,4 @@ COPY --from=build /app/static /static
 #EXPOSE THE PORT 
 EXPOSE 8080
 
-CMD ["./main"] #Run the applications
+CMD ["/app/main"] #Run the applications
