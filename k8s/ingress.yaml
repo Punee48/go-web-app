@@ -8,12 +8,12 @@ spec:
   ingressClassName: nginx
   rules:
     - host: "example.com"
-        http:
-          paths:
-            - path: /courses
-                pathType: Prefix
-                  backend:
-                    service:
-                      name: gowebapp-service
-                        port:
-                          number: 80
+      http:
+        paths:
+          - path: /courses
+            pathType: Prefix
+            backend:
+              service:
+                name: gowebapp-service
+                port:
+                  number: 80
