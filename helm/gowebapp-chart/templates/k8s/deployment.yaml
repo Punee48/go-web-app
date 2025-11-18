@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: gowebapp-deployment
   labels:
     app: gowebapp
 
 spec:
-  replicas: 1
-  selector: 
+  replicas: { { .Values.replicaCount } }
+  selector:
     matchLabels:
       app: gowebapp
   template:
@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: gowebapp-pod
-          image: puneethkumarv48/gowebapp:v2
+          image: puneethkumarv48/gowebapp:{{ .Values.image.tag}}
           ports:
             - containerPort: 8080
