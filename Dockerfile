@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine AS build
+FROM golang:1.22.5-alpine AS build
 
 WORKDIR /app
 
@@ -12,14 +12,14 @@ COPY . .
 RUN go build -o main .
 
 # Final Stage in distroless image 
-FROM gcr.io/distroless/static-debian12
+FROM gcr.io/distroless/base
 
 WORKDIR /app
 
-COPY --from=build /app/main /app/main
+COPY --from=build /app/main .
 
 #Copy the static file from the binary image
-COPY --from=build /app/static app/static
+COPY --from=build /app/static ./static
 
 #EXPOSE THE PORT 
 EXPOSE 8080
