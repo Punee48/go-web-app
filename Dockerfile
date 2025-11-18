@@ -11,8 +11,17 @@ COPY . .
 
 RUN go build -o main .
 
-CMD ["/app/main"]
+# Final Stage in distroless image 
+FROM gcr.io/distroless/static-debian12
+
+WORKDIR /app
+
+COPY --from=build /app/main /app/main
+
+#Copy the static file from the binary image
+COPY --from=build /app/static app/static
 
 #EXPOSE THE PORT 
 EXPOSE 8080
 
+CMD ["/app/main"] #Run the applications
