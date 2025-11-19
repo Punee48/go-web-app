@@ -1,0 +1,62 @@
+name: gowebapp-ci
+
+on: 
+    push:
+        branches:
+            - main
+        paths-ignore:
+            - 'README.md'
+            - 'helm/**'
+
+jobs:
+    BUILD_AND_TEST:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v5
+
+            - name: Setup Go Environment
+              uses: actions/setup-go@v6
+              with:
+                go-version: '1.25'
+
+            - name: Build Go App
+              run: go build -o gowebapp .
+
+            - name: Test Go App
+              run: go test ./..
+              
+    
+    CodeAnalysis:
+        runs-on: ubuntu-latest
+        needs: BUILD_AND_TEST
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v5
+            
+            - name: Go lint 
+              uses: golangci/golangci-lint-action@v6
+              with:
+                version: v1.56.2
+
+    PushImage:
+        runs-on: ubuntu-latest
+        needs: BUILD_AND_TEST
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v5
+
+            - name: Docker BuildX
+              uses: docker/setup-buildx-action@v3
+
+            - name: Docker Login
+              uses: docker/login-action@v3
+              with:
+                username: ${{ secrets.DOCKER_USER }}
+                password: ${{ secrets.DOCKER_TOKEN }}
+
+            - name: Build and push
+              uses: docker/build-push-action@v6
+              with:
+                push: true
+                tags: ${{ secrets.DOCKER_USER }}/gowebapp:${{ github.run_id }}
