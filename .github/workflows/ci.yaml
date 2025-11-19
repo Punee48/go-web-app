@@ -24,7 +24,7 @@ jobs:
               run: go build -o gowebapp .
 
             - name: Test Go App
-              run: go test ./..
+              run: go test ./...
               
     
     CodeAnalysis:
