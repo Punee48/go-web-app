@@ -7,10 +7,10 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: "example.com"
+    - host: gowebapp.local
       http:
         paths:
-          - path: /courses
+          - path: /
             pathType: Prefix
             backend:
               service:
