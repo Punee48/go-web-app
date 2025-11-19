@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
         - name: gowebapp-pod
-          image: puneethkumarv48/gowebapp:{{ .Values.image.tag}}
+          image: puneethkumarv48/gowebapp:{{ .Values.image.tag }}
           ports:
             - containerPort: 8080
